@@ -1,4 +1,4 @@
-from flask import Flask, render_template, render_template_string, url_for, request
+from flask import Flask, render_template, url_for, request
 import redis
 import os
 REDIS_PORT=6379
@@ -15,14 +15,14 @@ def index():
 
 @app.route("/reset")
 def reset():
-    conn = redis.Redis(port=REDIS_PORT)
+    conn = redis.Redis(host='redis', port=REDIS_PORT)
     outValue=conn.delete('number')
     return str(outValue)
 
 @app.route("/api/number", methods=('GET', 'POST'))
 def number():
     if request.method == 'GET':
-        conn = redis.Redis(port=REDIS_PORT)
+        conn = redis.Redis(host='redis', port=REDIS_PORT)
         outValue=conn.get('number')
         if outValue == None:
             outValue=0
@@ -30,7 +30,7 @@ def number():
         else:
             outValue=outValue.decode('utf-8')
     if request.method == 'POST':
-        conn = redis.Redis(port=REDIS_PORT)
+        conn = redis.Redis(host='redis', port=REDIS_PORT)
         outValue=conn.get('number')
         if outValue == None:
             outValue=0
@@ -40,10 +40,6 @@ def number():
             conn.set('number', int(outValue)+1)
     return str(outValue)
 
-
-# with app.test_request_context():
-#     print(url_for('index'))
-#     print(url_for('path', i=111, thepath='111/reee/ggg'))
 
 if __name__ == "__main__":
     app.run(debug=True)
