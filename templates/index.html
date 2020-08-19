@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Test task</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <p><b>This is counter of clicks: </b><span id="current">0</span></p>
+  <button onclick="onButtonClick()">Click!</button>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      updateNumberField(getCurrentNumber());
+    });
+
+    function onButtonClick() {
+      incrementNumber();
+      updateNumberField(getCurrentNumber());
+    }
+
+    function getCurrentNumber() {
+      let xhr = new XMLHttpRequest();
+
+      xhr.open('GET', '/api/number', false);
+      xhr.send();
+
+      let response = xhr.responseText;
+
+      if (xhr.status != 200) {
+        alert('Ошибка ' + xhr.status + ': ' + xhr.statusText);
+        return false;
+      } else {
+        return response;
+      }
+    }
+
+    function incrementNumber() {
+      let xhr = new XMLHttpRequest();
+
+      xhr.open('POST', '/api/number', false);
+      xhr.send();
+
+      if (xhr.status != 200) {
+        alert('Ошибка ' + xhr.status + ': ' + xhr.statusText);
+      }
+    }
+
+    function updateNumberField(newNumber) {
+      if (newNumber) {
+        let currentNumberEl = document.getElementById('current');
+        currentNumberEl.innerHTML = newNumber;
+      }
+    }
+  </script>
+</body>
+
+</html>
