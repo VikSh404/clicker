@@ -1,0 +1,14 @@
+version: '3.0'
+services:
+  web:
+    image: mrv0/clicker-frontend
+    ports:
+    - 8080:80
+    links:
+    - flask
+  flask:
+    image: mrv0/clicker-backend
+    links:
+    - redis
+  redis:
+    image: redis

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
+
+
 <head>
   <meta charset="utf-8">
   <title>Test task</title>
@@ -9,20 +11,24 @@
 </head>
 
 <body>
+
   <p><b>This is counter of clicks: </b><span id="current">0</span></p>
-  <button onclick="onButtonClick()">Click!</button>
-  <button onclick="onButtonResetNumber()">Reset</button>
+  <button onclick="onIncrementButtonClick()">Click!</button>
+  <button onclick="onResetButtonClick()">Reset</button>
+
+
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       updateNumberField(getCurrentNumber());
     });
 
-    function onButtonClick() {
+    function onIncrementButtonClick() {
       incrementNumber();
       updateNumberField(getCurrentNumber());
     }
 
-    function onButtonResetNumber() {
+    function onResetButtonClick() {
       resetNumber();
       updateNumberField(getCurrentNumber());
     }
@@ -30,7 +36,7 @@
     function resetNumber() {
       let xhr = new XMLHttpRequest();
 
-      xhr.open('GET', '/reset', false);
+      xhr.open('DELETE',  '/api/number', false);
       xhr.send();
 
       let response = xhr.responseText;
@@ -47,7 +53,7 @@
     function getCurrentNumber() {
       let xhr = new XMLHttpRequest();
 
-      xhr.open('GET', '/api/number', false);
+      xhr.open('GET',  '/api/number', false);
       xhr.send();
 
       let response = xhr.responseText;
@@ -63,7 +69,7 @@
     function incrementNumber() {
       let xhr = new XMLHttpRequest();
 
-      xhr.open('POST', '/api/number', false);
+      xhr.open('POST',  '/api/number', false);
       xhr.send();
 
       if (xhr.status != 200) {
