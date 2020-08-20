@@ -11,6 +11,7 @@
 <body>
   <p><b>This is counter of clicks: </b><span id="current">0</span></p>
   <button onclick="onButtonClick()">Click!</button>
+  <button onclick="onButtonResetNumber()">Reset</button>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       updateNumberField(getCurrentNumber());
@@ -20,6 +21,28 @@
       incrementNumber();
       updateNumberField(getCurrentNumber());
     }
+
+    function onButtonResetNumber() {
+      resetNumber();
+      updateNumberField(getCurrentNumber());
+    }
+
+    function resetNumber() {
+      let xhr = new XMLHttpRequest();
+
+      xhr.open('GET', '/reset', false);
+      xhr.send();
+
+      let response = xhr.responseText;
+
+      if (xhr.status != 200) {
+        alert('Ошибка ' + xhr.status + ': ' + xhr.statusText);
+        return false;
+      } else {
+        return response;
+      }
+    }
+
 
     function getCurrentNumber() {
       let xhr = new XMLHttpRequest();
